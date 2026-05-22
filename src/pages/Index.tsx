@@ -149,6 +149,11 @@ const copy = {
 const Index = () => {
   const { language, setLanguage } = useLanguage();
   const t = copy[language];
+  const calendlyUrlRaw = import.meta.env.VITE_CALENDLY_URL ?? "";
+  const calendlyUrl =
+    calendlyUrlRaw.trim().length > 0 && !calendlyUrlRaw.includes("your-user")
+      ? calendlyUrlRaw
+      : "https://calendly.com/gabrielolauria";
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [aboutSlide, setAboutSlide] = useState(0);
 
@@ -198,6 +203,33 @@ const Index = () => {
       current.includes(index) ? current.filter((item) => item !== index) : [...current, index],
     );
   };
+
+  const schedulingFlow =
+    language === "pt-BR"
+      ? {
+          badge: "FLUXO DE AGENDAMENTO",
+          title: "Agende seu diagnóstico em poucos passos",
+          steps: [
+            "Cliente clica em Agendar Diagnostico Gratuito",
+            "Calendly abre automaticamente",
+            "Escolhe a melhor data e horario",
+            "Preenche: Nome, Empresa, E-mail, WhatsApp e maior desafio",
+            "Call marcada automaticamente",
+            "Time PG recebe no Google Calendar",
+          ],
+        }
+      : {
+          badge: "BOOKING FLOW",
+          title: "Book your diagnosis in a few steps",
+          steps: [
+            "Client clicks Schedule Free Diagnosis",
+            "Calendly opens automatically",
+            "Selects the best date and time",
+            "Fills: Name, Company, Email, WhatsApp, and biggest challenge",
+            "Call is booked automatically",
+            "PG team receives it in Google Calendar",
+          ],
+        };
 
   const founderContent =
     language === "pt-BR"
@@ -280,7 +312,11 @@ const Index = () => {
           </div>
           <div className="flex items-center gap-3">
             <LanguageToggle language={language} onChange={setLanguage} />
-            <Button size="sm" className="bg-[image:var(--gradient-cta)] text-primary-foreground border-0 shadow-[var(--shadow-glow)] hover:opacity-90 hidden sm:inline-flex">
+            <Button
+              size="sm"
+              className="bg-[image:var(--gradient-cta)] text-primary-foreground border-0 shadow-[var(--shadow-glow)] hover:opacity-90 hidden sm:inline-flex"
+              onClick={() => window.open(calendlyUrl, "_blank", "noopener,noreferrer")}
+            >
               {t.topCta}
             </Button>
           </div>
@@ -306,7 +342,11 @@ const Index = () => {
         <p className="max-w-2xl mx-auto text-lg text-muted-foreground mb-10">{t.heroText}</p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button size="lg" className="bg-[image:var(--gradient-cta)] text-primary-foreground border-0 shadow-[var(--shadow-glow)] hover:opacity-90 group">
+          <Button
+            size="lg"
+            className="bg-[image:var(--gradient-cta)] text-primary-foreground border-0 shadow-[var(--shadow-glow)] hover:opacity-90 group"
+            onClick={() => window.open(calendlyUrl, "_blank", "noopener,noreferrer")}
+          >
             {t.heroCtaA}
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Button>
@@ -392,6 +432,28 @@ const Index = () => {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="relative z-10 container py-14">
+        <div className="rounded-2xl border border-primary/25 bg-card/50 backdrop-blur-md p-6 md:p-8">
+          <p className="text-xs tracking-[0.3em] text-primary mb-3">// {schedulingFlow.badge}</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-gradient mb-6">{schedulingFlow.title}</h2>
+          <div className="grid md:grid-cols-2 gap-3 mb-6">
+            {schedulingFlow.steps.map((step) => (
+              <div key={step} className="rounded-xl border border-primary/20 bg-background/30 p-4 text-sm">
+                <span className="text-primary mr-2">✔</span>
+                {step}
+              </div>
+            ))}
+          </div>
+          <Button
+            size="lg"
+            className="bg-[image:var(--gradient-cta)] text-primary-foreground border-0 shadow-[var(--shadow-glow)]"
+            onClick={() => window.open(calendlyUrl, "_blank", "noopener,noreferrer")}
+          >
+            {t.topCta}
+          </Button>
         </div>
       </section>
 
@@ -500,7 +562,18 @@ const Index = () => {
             <Button size="lg" className="bg-[image:var(--gradient-cta)] text-primary-foreground border-0 shadow-[var(--shadow-glow)]">
               <Mail className="mr-2 h-4 w-4" /> contato@pgintelligence.com
             </Button>
-            <Button size="lg" variant="outline" className="border-primary/40 hover:bg-primary/10 hover:text-primary">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-primary/40 hover:bg-primary/10 hover:text-primary"
+              onClick={() =>
+                window.open(
+                  "https://wa.me/5599999999999?text=Ola%2C%20vim%20pelo%20site%20da%20PG%20Intelligence%20e%20quero%20falar%20sobre%20um%20projeto.",
+                  "_blank",
+                  "noopener,noreferrer",
+                )
+              }
+            >
               <MessageCircle className="mr-2 h-4 w-4" /> {t.contactBtn}
             </Button>
           </div>

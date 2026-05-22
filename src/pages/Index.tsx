@@ -3,6 +3,7 @@ import LanguageToggle from "@/components/LanguageToggle";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Bot, Brain, Code2, Linkedin, Mail, MessageCircle, ShieldCheck, Sparkles, Target, Workflow } from "lucide-react";
 import { useLanguage } from "@/lib/language";
+import { useState } from "react";
 
 const copy = {
   en: {
@@ -148,6 +149,117 @@ const copy = {
 const Index = () => {
   const { language, setLanguage } = useLanguage();
   const t = copy[language];
+  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  const [aboutSlide, setAboutSlide] = useState(0);
+
+  const serviceDetails =
+    language === "pt-BR"
+      ? [
+          ["Chatbots internos", "Base de conhecimento inteligente", "Atendimento automatizado", "Agentes de IA"],
+          ["Landing Pages", "Portais internos", "Dashboards", "Sistemas corporativos"],
+          ["Integração entre sistemas", "Automação de e-mails", "Fluxos de aprovação", "Processamento de documentos"],
+        ]
+      : [
+          ["Internal chatbots", "Intelligent knowledge base", "Automated support", "AI agents"],
+          ["Landing Pages", "Internal portals", "Dashboards", "Enterprise systems"],
+          ["System integrations", "Email automation", "Approval workflows", "Document processing"],
+        ];
+
+  const whyChoose = language === "pt-BR"
+    ? {
+        badge: "POR QUE A PG",
+        title: "Por que escolher a PG Intelligence",
+        lead: "Hoje falta autoridade. A PG entrega com metodo, clareza e foco no resultado.",
+        points: [
+          "Solucoes sob medida",
+          "Equipe especializada",
+          "Entregas documentadas",
+          "Suporte pos-implantacao",
+          "Integracoes modernas",
+          "IA aplicada ao negocio",
+        ],
+      }
+    : {
+        badge: "WHY PG",
+        title: "Why choose PG Intelligence",
+        lead: "What most teams lack today is authority. PG delivers with method, clarity, and outcome focus.",
+        points: [
+          "Tailored solutions",
+          "Specialized team",
+          "Documented deliveries",
+          "Post-launch support",
+          "Modern integrations",
+          "Business-driven AI",
+        ],
+      };
+
+  const toggleCard = (index: number) => {
+    setFlippedCards((current) =>
+      current.includes(index) ? current.filter((item) => item !== index) : [...current, index],
+    );
+  };
+
+  const founderContent =
+    language === "pt-BR"
+      ? {
+          badge: "CRIADORES",
+          title: "Quem cria a PG Intelligence",
+          intro:
+            "A PG Intelligence foi fundada para transformar tecnologia em impacto real no negocio, com automacoes e sistemas inteligentes que geram valor pratico e mensuravel.",
+        }
+      : {
+          badge: "FOUNDERS",
+          title: "Who builds PG Intelligence",
+          intro:
+            "PG Intelligence was founded to turn technology into real business impact, through automation and intelligent systems that create practical, measurable value.",
+        };
+
+  const founderSlides =
+    language === "pt-BR"
+      ? [
+          {
+            title: "PG Intelligence",
+            subtitle: "Tecnologia aplicada com foco em resultado",
+            body: "Marca, metodo e execucao orientados a crescimento.",
+            type: "logo" as const,
+          },
+          {
+            title: "Gabriel Oazem Lauria",
+            subtitle: "Co-Founder & AI Solutions Developer",
+            body:
+              "Gabriel atua no desenvolvimento de solucoes inteligentes que combinam automacao, inteligencia artificial e tecnologia para otimizar processos, aumentar produtividade e acelerar resultados. Em fase de conclusao da graduacao em Ciencia da Computacao, busca unir conhecimento tecnico e inovacao para criar solucoes modernas e eficientes. A PG Intelligence nasceu da vontade de transformar tecnologia em impacto real para negocios, com automacoes, sistemas inteligentes e experiencias digitais que geram valor pratico e mensuravel. Seu foco esta em simplificar operacoes, reduzir tarefas repetitivas e ajudar empresas a crescer de forma estrategica e sustentavel.",
+            type: "text" as const,
+          },
+          {
+            title: "Pedro Marcos Abreu",
+            subtitle: "Co-Founder & Software Engineering Specialist",
+            body:
+              "Pedro atua na criacao e no desenvolvimento de solucoes tecnologicas com foco em eficiencia, escalabilidade e inovacao. Finalizando a graduacao em Engenharia de Software, tem forte interesse em desenvolvimento de sistemas, arquitetura de software e implementacao de tecnologias que geram valor real para empresas. Como cofundador da PG Intelligence, participa da concepcao e execucao de projetos que unem tecnologia, estrategia e inovacao para resolver desafios corporativos. Seu foco esta em transformar necessidades de negocio em solucoes digitais praticas, seguras e preparadas para acompanhar o crescimento dos clientes.",
+            type: "text" as const,
+          },
+        ]
+      : [
+          {
+            title: "PG Intelligence",
+            subtitle: "Applied technology with outcome focus",
+            body: "Brand, method, and execution built for growth.",
+            type: "logo" as const,
+          },
+          {
+            title: "Gabriel Oazem Lauria",
+            subtitle: "Co-Founder & AI Solutions Developer",
+            body:
+              "Gabriel builds intelligent solutions that combine automation, AI, and technology to optimize operations, increase productivity, and accelerate outcomes. While finishing his Computer Science degree, he focuses on connecting technical depth with innovation to deliver modern, efficient systems. PG Intelligence was created to turn technology into real business impact through automation, intelligent systems, and digital experiences with practical and measurable value. His core focus is simplifying operations, reducing repetitive work, and helping companies grow strategically and sustainably.",
+            type: "text" as const,
+          },
+          {
+            title: "Pedro Marcos Abreu",
+            subtitle: "Co-Founder & Software Engineering Specialist",
+            body:
+              "Pedro develops technology solutions focused on efficiency, scalability, and innovation. While finishing his Software Engineering degree, he is deeply engaged in system development, software architecture, and implementation of technologies that create real business value. As a co-founder of PG Intelligence, he helps design and execute projects that combine technology, strategy, and innovation to solve corporate challenges. His focus is translating business needs into practical, secure digital solutions built to support client growth.",
+            type: "text" as const,
+          },
+        ];
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -220,19 +332,66 @@ const Index = () => {
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {[Bot, Code2, Workflow].map((Icon, idx) => (
-            <div key={t.services[idx].title} className="group rounded-2xl p-px bg-gradient-to-b from-primary/40 via-border to-transparent hover:from-primary hover:via-primary/30 transition-all duration-500">
-              <div className="rounded-2xl bg-card/80 backdrop-blur-md p-8 h-full">
-                <Icon className="h-10 w-10 text-primary mb-5" />
-                <h3 className="font-[Orbitron] text-xl mb-3">{t.services[idx].title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t.services[idx].desc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {t.services[idx].tags.map((tag) => (
-                    <span key={tag} className="text-[10px] tracking-widest px-2.5 py-1 rounded-full border border-primary/30 text-primary/90">{tag}</span>
-                  ))}
+            <button
+              key={t.services[idx].title}
+              type="button"
+              onClick={() => toggleCard(idx)}
+              className="group text-left rounded-2xl p-px bg-gradient-to-b from-primary/40 via-border to-transparent hover:from-primary hover:via-primary/30 transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70"
+              aria-label={`Ver detalhes de ${t.services[idx].title}`}
+            >
+              <div className="relative h-[320px] [perspective:1200px]">
+                <div
+                  className={`relative h-full w-full rounded-2xl transition-transform duration-700 [transform-style:preserve-3d] ${
+                    flippedCards.includes(idx) ? "[transform:rotateY(180deg)]" : ""
+                  }`}
+                >
+                  <div className="absolute inset-0 rounded-2xl bg-card/80 backdrop-blur-md p-8 [backface-visibility:hidden]">
+                    <Icon className="h-10 w-10 text-primary mb-5" />
+                    <h3 className="font-[Orbitron] text-xl mb-3">{t.services[idx].title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t.services[idx].desc}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {t.services[idx].tags.map((tag) => (
+                        <span key={tag} className="text-[10px] tracking-widest px-2.5 py-1 rounded-full border border-primary/30 text-primary/90">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-card/90 backdrop-blur-md p-8 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                    <h3 className="font-[Orbitron] text-xl mb-5">{t.services[idx].title}</h3>
+                    <ul className="space-y-3 text-sm">
+                      {serviceDetails[idx].map((item) => (
+                        <li key={item} className="text-foreground/95">
+                          <span className="text-primary mr-2">✔</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
+        </div>
+      </section>
+
+      <section className="relative z-10 container py-12">
+        <div className="rounded-3xl p-px bg-gradient-to-r from-primary/50 via-primary/20 to-transparent">
+          <div className="rounded-3xl bg-card/70 backdrop-blur-md p-8 md:p-10">
+            <div className="max-w-3xl mb-8">
+              <p className="text-xs tracking-[0.3em] text-primary mb-3">// {whyChoose.badge}</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">{whyChoose.title}</h2>
+              <p className="text-muted-foreground leading-relaxed">{whyChoose.lead}</p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {whyChoose.points.map((point) => (
+                <div key={point} className="rounded-xl border border-primary/25 bg-background/30 px-4 py-4">
+                  <p className="text-sm md:text-base">
+                    <span className="text-primary mr-2">✔</span>
+                    {point}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -262,13 +421,57 @@ const Index = () => {
       <section id="about" className="relative z-10 container py-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-xs tracking-[0.3em] text-primary mb-3">// {t.about}</p>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">{t.aboutTitle}</h2>
-            <p className="text-muted-foreground mb-4 leading-relaxed">{t.aboutTextA}</p>
-            <p className="text-muted-foreground leading-relaxed">{t.aboutTextB}</p>
+            <p className="text-xs tracking-[0.3em] text-primary mb-3">// {founderContent.badge}</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">{founderContent.title}</h2>
+            <p className="text-muted-foreground leading-relaxed">{founderContent.intro}</p>
           </div>
-          <div className="relative rounded-2xl glow-border bg-card/60 backdrop-blur-md p-10">
-            <img src={logo} alt="PG Intelligence" className="w-full max-w-sm mx-auto animate-float" />
+          <div className="relative rounded-2xl glow-border bg-card/60 backdrop-blur-md p-6 md:p-8 overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${aboutSlide * 100}%)` }}
+            >
+              {founderSlides.map((slide) => (
+                <div key={slide.title} className="w-full shrink-0 pr-2">
+                  <div className="rounded-xl border border-primary/25 bg-background/30 p-6 min-h-[300px] flex flex-col">
+                    {slide.type === "logo" ? (
+                      <img src={logo} alt="PG Intelligence" className="w-full max-w-[220px] mx-auto mb-4 animate-float" />
+                    ) : null}
+                    <h3 className="font-[Orbitron] text-lg md:text-xl mb-2">{slide.title}</h3>
+                    <p className="text-primary text-xs tracking-widest mb-4">{slide.subtitle}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{slide.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-5 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                {founderSlides.map((slide, idx) => (
+                  <button
+                    key={slide.title}
+                    type="button"
+                    onClick={() => setAboutSlide(idx)}
+                    className={`h-2.5 rounded-full transition-all ${aboutSlide === idx ? "w-6 bg-primary" : "w-2.5 bg-primary/40"}`}
+                    aria-label={`Abrir slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAboutSlide((current) => (current === 0 ? founderSlides.length - 1 : current - 1))}
+                  className="px-3 py-1.5 text-xs rounded-md border border-primary/40 hover:bg-primary/10"
+                >
+                  Anterior
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAboutSlide((current) => (current + 1) % founderSlides.length)}
+                  className="px-3 py-1.5 text-xs rounded-md border border-primary/40 hover:bg-primary/10"
+                >
+                  Proximo
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
